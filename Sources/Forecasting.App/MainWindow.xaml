@@ -1,0 +1,206 @@
+﻿<Window x:Class="Forecasting.App.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Forecasting.App"
+        mc:Ignorable="d"
+        xmlns:controls="clr-namespace:Forecasting.App.Controls"
+        Title="MainWindow" Height="550" Width="525" DataContext="{Binding Source={StaticResource VMLocator}, Path=MainVM}">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="150"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <ListBox DataContext="{Binding Tournaments}" ItemsSource="{Binding}" DisplayMemberPath="Name" SelectedItem="{Binding DataContext.SelectedTournament, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}"/>
+
+            <Button Grid.Row="1" Command="{Binding CreateNewTournamentCommand}">Создать турнир</Button>
+
+        </Grid>
+
+
+        <TabControl Grid.Column="1" DataContext="{Binding SelectedTournament}">
+            <TabItem Header="Информация о турнире">
+
+                <Border Style="{StaticResource RoundedBorderStyle}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition MinWidth="150" Width="auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Название турнира:"/>
+                        <TextBox Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
+
+                        <Button Margin="0,7,0,0" Grid.Row="1" Grid.Column="1" Command="{Binding DataContext.SaveTournamentCommand, RelativeSource={RelativeSource AncestorType=Window, Mode=FindAncestor}}">Сохранить</Button>
+                    </Grid>
+                </Border>
+            </TabItem>
+            <TabItem Header="Команды">
+                <Border Grid.Row="1" Style="{StaticResource RoundedBorderStyle}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Команды турнира:"/>
+                        <Button Grid.Column="1" Command="{Binding DataContext.CreateNewTeamCommand, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=Window}}">Создать команду</Button>
+
+
+                        <ListBox Grid.Row="1" ItemsSource="{Binding TournamentTeams}" Grid.ColumnSpan="2">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition Width="auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox Text="{Binding Name}"/>
+                                        <Button Grid.Column="1" Command="{Binding DataContext.RemoveTeamCommand, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=Window}}"
+                                                CommandParameter="{Binding}">Удалить</Button>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+
+                        <Grid Grid.Row="2" Grid.Column="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Button Margin="0,0,10,0" Command="{Binding DataContext.CancelTeamsChangesCommand, RelativeSource={RelativeSource AncestorType=Window, Mode=FindAncestor}}">Отмена</Button>
+                            <Button Grid.Column="1" Command="{Binding DataContext.SaveTeamsCommand, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=Window}}">Сохранить</Button>
+                        </Grid>
+                    </Grid>
+                </Border>
+            </TabItem>
+
+            <TabItem Header="Участники">
+                <Border Style="{StaticResource RoundedBorderStyle}" Grid.Row="2">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="Игроки (участники турнира):"/>
+                        <Button Grid.Column="1" Command="{Binding DataContext.CreateNewPlayerCommand, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=Window}}">Создать участника</Button>
+
+
+                        <ListBox ItemsSource="{Binding Players}" Grid.ColumnSpan="2" Grid.Row="1">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition Width="auto"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBox Text="{Binding Name}"/>
+                                        <Button Grid.Column="1" Command="{Binding DataContext.RemovePlayerCommand, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=Window}}"
+                                                CommandParameter="{Binding}">Удалить</Button>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                        <Grid Grid.Row="2" Grid.Column="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Button Margin="0,0,10,0" Command="{Binding DataContext.CancelPlayersChangesCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}">Отмена</Button>
+                            <Button Grid.Column="1" Command="{Binding DataContext.SavePlayersCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}">Сохранить</Button>
+                        </Grid>
+
+                    </Grid>
+                </Border>
+            </TabItem>
+
+            <TabItem Header="Матчи">
+                <Border Style="{StaticResource RoundedBorderStyle}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Button Grid.Column="2" Command="{Binding DataContext.CreateTourCommand, RelativeSource={RelativeSource AncestorType=Window, Mode=FindAncestor}}">Создать тур</Button>
+                        <ItemsControl Grid.Row="1" ItemsSource="{Binding Tours}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Margin="0,10,0,0" Style="{StaticResource RoundedBorderStyle}">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="auto"/>
+                                                <RowDefinition Height="auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition Width="auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="Номер тура:" VerticalAlignment="Center"/>
+                                            <controls:NumericControl Width="30" Margin="0,0,10,0" Grid.Column="1" MaxValue="1000" MinValue="1" Value="{Binding TourNumber}"/>
+                                            <Button Grid.Column="2" Command="{Binding DataContext.RemoveTourCommand, RelativeSource={RelativeSource AncestorType=Window, Mode=FindAncestor}}"
+                                                    CommandParameter="{Binding}">Удалить тур</Button>
+                                            <ItemsControl Grid.Row="1" ItemsSource="{Binding TourGameResults}">
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition/>
+                                                                <ColumnDefinition Width="auto"/>
+                                                                <ColumnDefinition Width="auto"/>
+                                                                <ColumnDefinition Width="auto"/>
+                                                                <ColumnDefinition/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <ComboBox ItemsSource="{Binding DataContext.Teams, RelativeSource={RelativeSource AncestorType=Window,Mode=FindAncestor}}" 
+                                                                      DisplayMemberPath="Name">
+                                                                <ComboBox.SelectedItem>
+                                                                    <MultiBinding Converter="{StaticResource GameResultTeamConverter}">
+                                                                        <Binding Path="TournamentTeam1Id"/>
+                                                                        <Binding Path="ItemsSource" RelativeSource="{RelativeSource Self}"/>
+                                                                    </MultiBinding>
+                                                                </ComboBox.SelectedItem>
+                                                            </ComboBox>
+                                                            <controls:NumericControl Grid.Column="1" Width="20" IncrementButtonsVisibility="Hidden" Value="{Binding TournamentTeam1Points}"/>
+                                                            <TextBlock Grid.Column="2" VerticalAlignment="Center">:</TextBlock>
+                                                            <controls:NumericControl Grid.Column="3" Width="20" IncrementButtonsVisibility="Hidden" Value="{Binding TournamentTeam2Points}"/>
+                                                            <ComboBox Grid.Column="4" ItemsSource="{Binding DataContext.Teams, RelativeSource={RelativeSource AncestorType=Window,Mode=FindAncestor}}" DisplayMemberPath="Name"></ComboBox>
+                                                        </Grid>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+
+                    </Grid>
+                </Border>
+            </TabItem>
+        </TabControl>
+
+    </Grid>
+</Window>

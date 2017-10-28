@@ -9,9 +9,16 @@ using System.Threading.Tasks;
 
 namespace Forecasting.App.VM.Models
 {
-    public class TourObservable : ObservableModelWithId<long>
+
+    public class TourObservableBase : ObservableModelWithId<long>
     {
+        
         public int TourNumber { get; set; }
+        public long TournamentId { get; set; }
+    }
+
+    public class TourObservable : TourObservableBase
+    {
 
         private ObservableCollection<TourGameResultObservable> _tourGameResults;
         public ObservableCollection<TourGameResultObservable> TourGameResults
@@ -27,12 +34,35 @@ namespace Forecasting.App.VM.Models
         }
     }
 
+    public class TourExtendedObservable : TourObservableBase
+    {
+        public List<PlayerExtended> Players { get; set; }
+    }
+
+    public class PlayerExtended : ObservableModelWithName<long>
+    {
+        private ObservableCollection<PlayerTourForecast> _forecasts;
+        public ObservableCollection<PlayerTourForecast> Forecasts
+        {
+            get
+            {
+                return _forecasts;
+            }
+            set
+            {
+                Set(() => Forecasts, ref _forecasts, value);
+            }
+        }
+
+    }
+
     internal class TourObservableMappingProfile : Profile
     {
         public TourObservableMappingProfile()
         {
-            CreateMap<Tour, TournamentTeamObservable>();
-            CreateMap<TournamentTeamObservable, Tour>();
+            CreateMap<Tour, TourObservable>();
+            CreateMap<Tour, TourExtendedObservable>();
+            CreateMap<TourObservable, Tour>();
         }
     }
 }

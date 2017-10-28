@@ -50,6 +50,19 @@ namespace Forecasting.App.VM.Models
             }
         }
 
+        private ObservableCollection<TourExtendedObservable> _tourForecasts;
+
+        public ObservableCollection<TourExtendedObservable> TourForecasts
+        {
+            get
+            {
+                return _tourForecasts;
+            }
+            set
+            {
+                Set(() => TourForecasts, ref _tourForecasts, value);
+            }
+        }
 
         public object Clone()
         {

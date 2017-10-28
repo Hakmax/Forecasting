@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Forecasting.App.Services.Models.ForecastingModels
 {
-    public class TourForecast:ModelWithId<long>
+    public class TourGameForecast:ModelWithId<long>
     {
         public long TourGameResultId { get; set; }
         public long PlayerId { get; set; }
@@ -22,8 +22,8 @@ namespace Forecasting.App.Services.Models.ForecastingModels
     {
         public TourForecastMappingProfile()
         {
-            CreateMap<Entities.Forecast.TourForecast, TourForecast>();
-            CreateMap<TourForecast, Entities.Forecast.TourForecast>();
+            CreateMap<Entities.Forecast.TourGameForecast, TourGameForecast>();
+            CreateMap<TourGameForecast, Entities.Forecast.TourGameForecast>();
         }
     }
 

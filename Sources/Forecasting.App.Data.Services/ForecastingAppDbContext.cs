@@ -16,7 +16,7 @@ namespace Forecasting.App.Data.Services
         public IDbSet<Player> Players { get; set; }
         public IDbSet<Tour> Tours { get; set; }
         public IDbSet<Tournament> Tournaments { get; set; }
-        public IDbSet<TourForecast> TourForecasts { get; set; }
+        public IDbSet<TourGameForecast> TourGameForecasts { get; set; }
         public IDbSet<TourGameResult> TourGameResults { get; set; }
         public IDbSet<TournamentTeam> TournamentTeams { get; set; }
 
@@ -25,7 +25,7 @@ namespace Forecasting.App.Data.Services
         {
             this.Database.Log = str =>
             {
-                System.Diagnostics.Trace.WriteLine(str);
+             //   System.Diagnostics.Trace.WriteLine(str);
             };
         }
 

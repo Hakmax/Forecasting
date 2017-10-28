@@ -13,10 +13,12 @@ namespace Forecasting.App.Controls
         private Button _upButton;
         private Button _downButton;
         private TextBox _inputTextbox;
-        private readonly static DependencyProperty MaxValueProperty = DependencyProperty.Register("MaxValue", typeof(int), typeof(NumericControl), new UIPropertyMetadata(10));
-        private readonly static DependencyProperty MinValueProperty = DependencyProperty.Register("MinValue", typeof(int), typeof(NumericControl), new UIPropertyMetadata(1));
-        private readonly static DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(int), typeof(NumericControl), new UIPropertyMetadata(1, ValueChanged));
-        private readonly static DependencyProperty IncrementButtonsVisibilityProperty = DependencyProperty.Register("IncrementButtonsVisibility", typeof(Visibility), typeof(NumericControl), new PropertyMetadata(Visibility.Visible));
+        public readonly static DependencyProperty MaxValueProperty = DependencyProperty.Register("MaxValue", typeof(int), typeof(NumericControl), new UIPropertyMetadata(100));
+        public readonly static DependencyProperty MinValueProperty = DependencyProperty.Register("MinValue", typeof(int), typeof(NumericControl), new UIPropertyMetadata(1));
+        public readonly static DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(int?), typeof(NumericControl), new UIPropertyMetadata(1, ValueChanged));
+        public readonly static DependencyProperty IncrementButtonsVisibilityProperty = DependencyProperty.Register("IncrementButtonsVisibility", typeof(Visibility), typeof(NumericControl), 
+            new PropertyMetadata(Visibility.Visible));
+        public readonly static DependencyProperty AllowNullProperty = DependencyProperty.Register("AllowNull", typeof(bool), typeof(NumericControl), new UIPropertyMetadata(false));
 
         static NumericControl()
         {
@@ -35,9 +37,9 @@ namespace Forecasting.App.Controls
             set { SetValue(MinValueProperty, value); }
         }
 
-        public int Value
+        public int? Value
         {
-            get { return (int)GetValue(ValueProperty); }
+            get { return (int?)GetValue(ValueProperty); }
             set
             {
                 SetCurrentValue(ValueProperty, value);
@@ -47,6 +49,18 @@ namespace Forecasting.App.Controls
             }
         }
 
+
+        public bool AllowNull
+        {
+            get
+            {
+                return (bool)GetValue(AllowNullProperty);
+            }
+            set
+            {
+                SetValue(AllowNullProperty, value);
+            }
+        }
         public Visibility IncrementButtonsVisibility
         {
             get { return (Visibility)GetValue(IncrementButtonsVisibilityProperty); }
@@ -62,47 +76,54 @@ namespace Forecasting.App.Controls
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
+            GotFocus += NumericControl_GotFocus;
             _upButton = Template.FindName("UpButton", this) as Button;
             _downButton = Template.FindName("DownButton", this) as Button;
             _inputTextbox = Template.FindName("InputTextBox", this) as TextBox;
-            _inputTextbox.KeyDown += _inputTextbox_KeyDown;
-            _inputTextbox.TextChanged += _inputTextbox_TextChanged;
-            _inputTextbox.Text = ((int)GetValue(MinValueProperty)).ToString();
-            _upButton.Click += _upButton_Click;
-            _downButton.Click += _downButton_Click;
+            _inputTextbox.Text = Value.ToString();
+            _inputTextbox.TextChanged += inputTextbox_TextChanged;
+            _upButton.Click += upButton_Click;
+            _downButton.Click += downButton_Click;
         }
 
-        private void _downButton_Click(object sender, RoutedEventArgs e)
+        private void NumericControl_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (_inputTextbox.Focusable)
+            {
+                _inputTextbox.SelectAll();
+                _inputTextbox.Focus();
+            }
+        }
+
+        private void downButton_Click(object sender, RoutedEventArgs e)
         {
             if (Value > MinValue)
                 Value -= 1;
         }
 
-        private void _upButton_Click(object sender, RoutedEventArgs e)
+        private void upButton_Click(object sender, RoutedEventArgs e)
         {
             if (Value < MaxValue)
                 Value += 1;
         }
 
-        private void _inputTextbox_TextChanged(object sender, TextChangedEventArgs e)
+        private void inputTextbox_TextChanged(object sender, TextChangedEventArgs e)
         {
             int inputVal = 0;
             if (int.TryParse(_inputTextbox.Text, out inputVal))
             {
-                if (inputVal > MinValue && inputVal < MaxValue && inputVal != Value)
+                if (inputVal >= MinValue && inputVal <= MaxValue && inputVal != Value)
                     Value = inputVal;
                 else
                     _inputTextbox.Text = Value.ToString();
             }
             else
             {
-                Value = MinValue;
+                if (!AllowNull)
+                    Value = MinValue;
+                else
+                    Value = null;
             }
-        }
-
-        private void _inputTextbox_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
-        {
-
         }
     }
 }

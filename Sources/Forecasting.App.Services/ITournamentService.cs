@@ -18,5 +18,8 @@ namespace Forecasting.App.Services
         Tournament GetWithDetails(long id);
         IList<Player> SavePlayers(long tournamentId, IList<Player> players);
         IList<TournamentTeam> SaveTournamentTeams(long tournamentId, IList<TournamentTeam> teams);
+        Tour SaveTour(Tour tour);
+        Tour SaveTourForecast(SaveTourForecastsModel tourForecastsModel);
+        IList<Tour> FilterToursForecasts(ToursForecastsFilterRequest request);
     }
 }

@@ -22,5 +22,8 @@ namespace Forecasting.App.Entities.Forecast
         public int TournamentTeam2Points { get; set; }
 
         public TourGameSummaryType TourGameSummaryType { get; set; }
+
+        public virtual ICollection<TourGameForecast> TourGameForecasts { get; set; }
+
     }
 }

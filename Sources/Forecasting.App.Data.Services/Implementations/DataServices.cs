@@ -34,13 +34,13 @@ namespace Forecasting.App.Data.Services.Implementations
             base.Create(entity);
         }
     }
-    internal class TourForecastDataService : DataService<TourForecast, long>, ITourForecastDataService
+    internal class TourGameForecastDataService : DataService<TourGameForecast, long>, ITourGameForecastDataService
     {
-        public TourForecastDataService(ForecastingAppDbContext context) : base(context)
+        public TourGameForecastDataService(ForecastingAppDbContext context) : base(context)
         {
         }
 
-        public override void Create(TourForecast entity)
+        public override void Create(TourGameForecast entity)
         {
             if (entity.CreationDate == DateTime.MinValue)
                 entity.CreationDate = DateTime.Now;

@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Forecasting.App.Services.Models
+namespace Forecasting.App
 {
-    public class Class1
+    internal class Constants
     {
+        public const int AllToursSelector = -1;
     }
 }

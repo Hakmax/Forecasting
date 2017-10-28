@@ -19,6 +19,7 @@ namespace Forecasting.App.Services.Models.ForecastingModels
         public int TournamentTeam2Points { get; set; }
 
         public TourGameSummaryType TourGameSummaryType { get; set; }
+        public List<TourGameForecast> TourGameForecasts { get; set; }
     }
 
     internal class TourGameResultMappingProfile:Profile

@@ -44,7 +44,7 @@
     <Compile Include="Entity.cs" />
     <Compile Include="Forecast\Player.cs" />
     <Compile Include="Forecast\Tour.cs" />
-    <Compile Include="Forecast\TourForecast.cs" />
+    <Compile Include="Forecast\TourGameForecast.cs" />
     <Compile Include="Forecast\Tournament.cs" />
     <Compile Include="Forecast\TournamentTeam.cs" />
     <Compile Include="Forecast\TourGameResult.cs" />

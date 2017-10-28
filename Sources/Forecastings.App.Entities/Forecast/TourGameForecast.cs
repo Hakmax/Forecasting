@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Forecasting.App.Entities.Forecast
 {
-    public class TourForecast:Entity<long>, IWatchedEntity
+    public class TourGameForecast:Entity<long>, IWatchedEntity
     {
         public DateTime CreationDate { get; set; }
         public long TourGameResultId { get; set; }

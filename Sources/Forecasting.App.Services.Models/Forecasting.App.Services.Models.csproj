@@ -44,13 +44,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="ForecastingModels\Player.cs" />
+    <Compile Include="ForecastingModels\SaveTourForecastsModel.cs" />
     <Compile Include="ForecastingModels\Tour.cs" />
-    <Compile Include="ForecastingModels\TourForecast.cs" />
+    <Compile Include="ForecastingModels\TourGameForecast.cs" />
     <Compile Include="ForecastingModels\TourGameResult.cs" />
     <Compile Include="ForecastingModels\Tournament.cs" />
     <Compile Include="ForecastingModels\TournamentTeam.cs" />
+    <Compile Include="ForecastingModels\ToursForecastsFilterRequest.cs" />
     <Compile Include="ModelsMappingConfig.cs" />
     <Compile Include="ModelWithId.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

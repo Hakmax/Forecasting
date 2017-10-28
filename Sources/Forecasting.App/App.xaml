@@ -4,11 +4,12 @@
              xmlns:vmModels="clr-namespace:Forecasting.App.VM.Models"
              xmlns:controls="clr-namespace:Forecasting.App.Controls"
              xmlns:converters="clr-namespace:Forecasting.App.Converters">
-  <Application.Resources>
+    <Application.Resources>
         <ResourceDictionary>
             <local:VMLocator x:Key="VMLocator"></local:VMLocator>
             <converters:GameResultTeamConverter x:Key="GameResultTeamConverter"/>
-
+            <converters:TourGameResultMultiParamsConverter x:Key="TourGameResultMultiParamsConverter"/>
+            <converters:TeamIdToTeamNameConverter x:Key="TeamIdToTeamNameConverter"/>
             <Style TargetType="controls:NumericControl">
                 <Setter Property="Template">
                     <Setter.Value>
@@ -28,7 +29,34 @@
                     </Setter.Value>
                 </Setter>
             </Style>
-            
+
+            <Style x:Key="ImageButtonStyle" TargetType="Button">
+                <Setter Property="BorderBrush" Value="Transparent"/>
+                <Setter Property="Background" Value="Transparent"/>
+            </Style>
+
+            <Style x:Key="RemoveButtonStyle" TargetType="Button" BasedOn="{StaticResource ImageButtonStyle}">
+                <Setter Property="ContentTemplate">
+                    <Setter.Value>
+                        <DataTemplate>
+                            <Image Source="Images\close_delete-24.png"/>
+                        </DataTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="AddButtonStyle" TargetType="Button" BasedOn="{StaticResource ImageButtonStyle}">
+                <Setter Property="ContentTemplate">
+                    <Setter.Value>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="Images\plus_add_new-24.png"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
             <DataTemplate x:Key="TournamentItemDataTemplate">
                 <Grid d:DataContext="{d:DesignInstance Type=vmModels:TournamentObservable}">
                     <Grid.ColumnDefinitions>
@@ -50,9 +78,15 @@
             <Style TargetType="ListBoxItem">
                 <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
             </Style>
-            
 
 
+            <Style TargetType="Button">
+                <Setter Property="Padding" Value="0"/>
+                <Setter Property="Height" Value="25"/>
+            </Style>
+            <Style TargetType="ComboBox">
+                <Setter Property="Height" Value="25"/>
+            </Style>
         </ResourceDictionary>
-  </Application.Resources>
+    </Application.Resources>
 </Application>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Forecasting.App.VM.Models.Messages;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,11 @@ namespace Forecasting.App
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void ToursFilterCheckboxChanged(object sender, RoutedEventArgs e)
+        {
+            GalaSoft.MvvmLight.Messaging.Messenger.Default.Send(new TourFilterChangedMessage());
         }
     }
 }

@@ -15,7 +15,7 @@ namespace Forecasting.App.Data.Services
     {
     }
 
-    public interface ITourForecastDataService : IDataService<TourForecast, long>
+    public interface ITourGameForecastDataService : IDataService<TourGameForecast, long>
     {
     }
     public interface ITourGameResultDataService : IDataService<TourGameResult, long>
